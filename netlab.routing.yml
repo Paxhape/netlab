@@ -1,7 +1,14 @@
 netlab_ukazka:
-  path: 'netlab/list_topo'
+  path: 'lab/list_topo'
   defaults:
     _controller: '\Drupal\netlab\Controller\NetlabController::list_topologies'
     _title: 'Topology list'
+  requirements:
+    _permission: 'access content'
+netlab_reservation:
+  path: 'lab/reserve'
+  defaults:
+    _title: 'Do reservation'
+    _form: '\Drupal\netlab\Form\DoReservation'
   requirements:
     _permission: 'access content'

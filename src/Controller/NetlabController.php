@@ -12,11 +12,26 @@ use Drupal\Core\Url;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class NetlabController extends ControllerBase {
-  public function ukazka() {
-    $build = array(
-    );
-   return $build;
-  }
+
+  /**
+  * @function
+  * Listovanie rezervacii
+  */
+
+   public function dashboard(){
+     $user = \Drupal\user\Entity\User::load(\Drupal::currentUser()->id());
+
+
+
+   }
+
+
+
+
+  /**
+  * @function
+  * Listovanie Topologii
+  */
 
   public function list_topologies(){
 
@@ -44,6 +59,7 @@ class NetlabController extends ControllerBase {
     );
     return $build;
    }
+
 
 
    /**
