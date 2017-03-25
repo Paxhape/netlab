@@ -1,0 +1,15 @@
+nano /etc/hostname
+nano /etc/hosts
+apt update
+apt upgrade
+apt-get install apache2 zip ranger
+a2enmod rewrite ssl
+service apache2 restart
+apache2ctl -M | egrep 'ssl|rewrite'
+cd /var/www/
+wget https://ftp.drupal.org/files/projects/drupal-8.2.x.zip //version
+unzip drupal-8.2.x.zip //version
+mv drupal-8.2.x.zip viro2
+apt-get install php7.0-*
+ apt install mysql-server mysql-client
+mysql -u root -p
