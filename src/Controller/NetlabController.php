@@ -10,6 +10,7 @@ namespace Drupal\netlab\Controller;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Url;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Drupal\netlab\NetlabStorage;
 
 class NetlabController extends ControllerBase {
 
@@ -38,15 +39,13 @@ class NetlabController extends ControllerBase {
     $build='';
     $rows = array();
 
-    $select = db_query("SELECT topo_name,description,author,created,ram_resources FROM `topology` WHERE active=1");
-    $result = $select->fetchAll();
-    foreach ($result as $record){
+    foreach ($result=NetlabStorage::topo_load() as $record){
         $rows[]=array(
                     $record->topo_name,
-                          $record->description,
-              $record->author,
-              $record->created,
-              $record->ram_resources,
+                    $record->description,
+                    $record->author,
+                    $record->created,
+                    $record->ram_resources,
                      );
     }
 
@@ -72,18 +71,16 @@ class NetlabController extends ControllerBase {
     $build='';
     $rows = array();
 
-    $select = db_query("SELECT name, term_date, topo_name, description FROM users_field_data, topology, term, reservation WHERE reservation.term_id=term.term_id AND topology.topology_id=reservation.topology_id AND users_field_data.uid=reservation.user_id")
-    $result = $select->fetchAll();
-    foreach ($result as $record) {
+
+    foreach ($result=NetlabStorage::reser_load() as $record) {
       $rows[]=array(
         $record->name,
         $record->term_date,
         $record->topo_name,
         $record->description,
       );
-      $rows[]=
     }
-    $header = array(t('Name'),t('Reservation date'),t('Name of topology'),t('Description'))
+    $header = array(t('Name'),t('Reservation date'),t('Name of topology'),t('Description'));
     $build['reservations'] = array(
       '#type' => 'table',
       '#header' => $header,
@@ -92,11 +89,6 @@ class NetlabController extends ControllerBase {
     );
     return $build;
   }
-
-  /**
-  * @function
-  * Listovanie rezervacii
-  */
 
   public function list_running(){
 
