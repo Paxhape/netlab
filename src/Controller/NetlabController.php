@@ -26,9 +26,6 @@ class NetlabController extends ControllerBase {
 
    }
 
-
-
-
   /**
   * @function
   * Listovanie Topologii
@@ -59,8 +56,6 @@ class NetlabController extends ControllerBase {
     return $build;
    }
 
-
-
    /**
    * @function
    * Listovanie rezervacii
@@ -90,21 +85,25 @@ class NetlabController extends ControllerBase {
     return $build;
   }
 
+  /**
+  * @function
+  * Listovanie beziacich topologii
+  */
+
   public function list_running(){
 
-    $select = db_query()
-    $result = $select->fetchAll();
-
-    foreach ($result as $record) {
+    foreach ($result=NetlabStorage::running_load() as $record) {
       $rows[]=array(
-        $record->reservation_id,
-        $record->term_date,
+        $record->name,
         $record->topo_name,
         $record->description,
-        $record->name,
+        $record->ram_resources,
+        $record->pid_dynamips,
+        $record->pid_dynagen,
+        $record->hypervisor_port,
       );
     }
-    $header = array(t('ID'),t('Reservation date'),t('Name of topology'),t('Description'),t('Reservator'))
+    $header = array(t('User'),t('Topology'),t('Description'),t('Ram Resources'),t('Dynamips Port'),t('Dynagen Port'),t('Hypervisor'))
     $build['reservations'] = array(
       '#type' => 'table',
       '#header' => $header,
@@ -114,5 +113,12 @@ class NetlabController extends ControllerBase {
     return $build;
   }
 
+public function start_topology($arg){
+
+
+
+
+
+}
 
 }

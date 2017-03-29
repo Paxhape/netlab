@@ -1,52 +1,41 @@
 <?php
 
 /**
- * @file
- * Contains Drupal\netlab\Form\DoReservation.
- */
 
+ * @file
+ * Contains Drupal\netlab\Form\CancelReservation.
+ */
 namespace Drupal\netlab\Form;
 
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 
-class DoReservation extends FormBase {
+class CancelReservation extends FormBase {
 
   public function getFormId() {
-    return 'do_reservation_form';
+    return 'cancel_reservation_form';
   }
 
   public function buildForm(array $form, FormStateInterface $form_state){
 
-        foreach ($topo_result=NetlabStorage::topo_reserve() as $topo_record) {
-          $topo[]=array(
-              $topo_record->topo_name,
-          );
-        }
+    foreach ($res_result=NetlabStorage::cancel_reserve() as $res_record) {
+      $reservation[]=array(
+          $res_record->term_date,
+          $res_record->topo_name,
+          $res_record->description,
+      );
+    }
 
-        foreach ($term_result=NetlabStorage::term_reserve() as $term_record) {
-          $term[]=array(
-              $term_record->term_date,
-          );
-        }
-
-    $form['topology_select'] = array(
+    $form['reservation'] = array(
       '#type' => 'select',
-      '#title' => t('Select topology'),
-      '#options' => $topo , //pozriet
+      '#title' => t('Select reservation'),
       '#required' => TRUE,
-    );
-
-    $form['date_select'] = array(
-      '#type' => 'select',
-      '#title' => t('Select date & hour'),
-      '#required' => TRUE,
-      '#options' => $term,
+      '#options' => &$reservation,
     );
    $form['actions']['#type'] = 'actions';
    $form['actions']['submit'] = array(
        '#type' => 'submit',
-       '#value' => t('Reserve'),
+       '#value' => t('Delete Reservation'),
        '#button_type' => 'primary',
    );
   return $form;
