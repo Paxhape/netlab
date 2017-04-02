@@ -104,7 +104,7 @@ class NetlabController extends ControllerBase {
       );
     }
     $header = array(t('User'),t('Topology'),t('Description'),t('Ram Resources'),t('Dynamips Port'),t('Dynagen Port'),t('Hypervisor'))
-    $build['reservations'] = array(
+    $build['running'] = array(
       '#type' => 'table',
       '#header' => $header,
       '#rows' => $rows,

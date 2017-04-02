@@ -61,4 +61,14 @@ class NetlabStorage {
     return $select->execute()->fetchAll();
   }
 
+  public static function stop_topology($user_name){
+    $select = db_select('running_topology','rt');
+    $select->join('reservation','r','r.reservation_id=rt.reservation_id');
+    $select->join('users_field_data','u','u.uid=r.user_id');
+    $select->join('topology','t','r.topology_id=t.topology_id');
+    $select->fields('t',array('topo_name'));
+    $select->condition('u.uid',$user_name);
+    return $select->execute()->fetchAll();
+  }
+
 }

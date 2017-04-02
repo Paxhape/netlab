@@ -4,7 +4,7 @@ netlab_ukazka:
     _controller: '\Drupal\netlab\Controller\NetlabController::list_topologies'
     _title: 'Topology list'
   requirements:
-    _permission: 'access content'
+    _permission: 'netlab list-topo'
 netlab_reservation:
   path: 'lab/reserve'
   defaults:
@@ -19,3 +19,10 @@ netlab_list_reser:
     _title: 'Reservation list'
   requirements:
     _permission: 'access content'
+netlab_list_running:
+  path: 'lab/list-run'
+  defaults:
+    _title: 'Running topologies'
+    _controller: '\Drupal\netlab\Controller\NetlabController::list_running'
+  requirements:
+    _permission: 'netlab list-run'
