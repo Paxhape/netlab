@@ -28,7 +28,7 @@ class NetlabController extends ControllerBase {
 
   /**
   * @function
-  * Listovanie Topologii
+  * Listovanie Dostupnych Topologii
   */
 
   public function list_topologies(){
@@ -113,12 +113,28 @@ class NetlabController extends ControllerBase {
     return $build;
   }
 
-public function start_topology($arg){
 
+public function console(){
+  global $user;
+  global $base_url;
 
+  $content='';
 
+  $pom = '<embed CODEBASE="'.$base_url.'/sites/default/files/" ARCHIVE="jta26.jar" CODE="de.mud.jta.Applet" WIDTH=80 	HEIGHT=35>
+  <param name="config" value="admin/applet_config.conf">
+  <param name="Socket.port" value = "3000">
+  </embed>';
+ $rows[] = array('Router ', $pom);
 
+ $header = array(t('Device'),t(''));
 
+ #$content = theme('table',$header, $rows);
+ $content['console'] = array(
+   '#type' => 'table',
+   '#header' => $header,
+   '#rows' => $rows,
+ );
+
+ return $content;
 }
-
 }

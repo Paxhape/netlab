@@ -1,4 +1,4 @@
-netlab_ukazka:
+netlab_list_topo:
   path: 'lab/list-topo'
   defaults:
     _controller: '\Drupal\netlab\Controller\NetlabController::list_topologies'
@@ -26,3 +26,17 @@ netlab_list_running:
     _controller: '\Drupal\netlab\Controller\NetlabController::list_running'
   requirements:
     _permission: 'netlab list-run'
+netlab_console:
+  path: 'lab/console'
+  defaults:
+    _title: 'Console'
+    _controller: '\Drupal\netlab\Controller\NetlabController::console'
+  requirements:
+    _permission: 'access content'
+netlab_start_topo:
+  path: 'lab/start'
+  defaults:
+    _title: 'Start Topology'
+    _form: '\Drupal\netlab\Form\StartTopology'
+  requirements:
+    _permission: 'access content'
