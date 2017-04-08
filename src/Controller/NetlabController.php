@@ -17,6 +17,38 @@ class NetlabController extends ControllerBase {
   /**
   * @function
   * Listovanie rezervacii
+  * Vypis zahrna Datum, Meno, topo_name, description a obr_topo
+  */
+
+  public function list_reservations(){
+
+   $build='';
+   $rows = array();
+   $user_role = $user->roles;
+
+  foreach ($result=NetlabStorage::reser_load($user_role) as $record) {
+   $rows[]=array(
+     $record->name,
+     $record->term_date,
+     $record->topo_name,
+     $record->description,
+   );
+  }
+
+   $header = array(t('Name'),t('Reservation date'),t('Name of topology'),t('Description'));
+   $build['reservations'] = array(
+     '#type' => 'table',
+     '#header' => $header,
+     '#rows' => $rows,
+     '#empty' => t('No reservations'),
+   );
+   return $build;
+  }
+
+
+  /**
+  * @function
+  * Listovanie rezervacii
   */
 
    public function dashboard(){
@@ -61,29 +93,6 @@ class NetlabController extends ControllerBase {
    * Listovanie rezervacii
    */
 
-   public function list_reservations(){
-
-    $build='';
-    $rows = array();
-
-
-    foreach ($result=NetlabStorage::reser_load() as $record) {
-      $rows[]=array(
-        $record->name,
-        $record->term_date,
-        $record->topo_name,
-        $record->description,
-      );
-    }
-    $header = array(t('Name'),t('Reservation date'),t('Name of topology'),t('Description'));
-    $build['reservations'] = array(
-      '#type' => 'table',
-      '#header' => $header,
-      '#rows' => $rows,
-      '#empty' => t('No reservations'),
-    );
-    return $build;
-  }
 
   /**
   * @function

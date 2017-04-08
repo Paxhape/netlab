@@ -10,15 +10,15 @@ namespace Drupal\netlab\Form;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 
-class CancelReservation extends FormBase {
+class DeleteReservation extends FormBase {
 
   public function getFormId() {
-    return 'cancel_reservation_form';
+    return 'delete_reservation_form';
   }
 
   public function buildForm(array $form, FormStateInterface $form_state){
 
-    foreach ($res_result=NetlabStorage::cancel_reserve() as $res_record) {
+    foreach ($res_result=NetlabStorage::delete_reserve() as $res_record) {
       $reservation[]=array(
           $res_record->term_date,
           $res_record->topo_name,

@@ -31,7 +31,7 @@ public function validateForm(array &$form, FormStateInterface $form_state) {
 }
 
 public function submitForm(array &$form, FormStateInterface $form_state){
-    exec( 'ssh viro2@158.193.152.43 echo viroADMIN* | sudo -S virsh start debian8-test');
+    exec( ' virsh start debian8-test');
 }
 
 }

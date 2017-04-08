@@ -9,14 +9,18 @@ namespace Drupal\netlab;
 
 class NetlabStorage {
 
-  public static function topo_load() {
-    $select = db_select('topology', 'n');
-    $select->fields('n',array('topo_name','description','author','created','ram_resources','console_count'));
-    $select->condition('n.active',1);
-    return $select->execute()->fetchAll();
-  }
+/*
+* Premenne
+*/
+$student = "student";
 
-  public static function reser_load(){
+/**
+*
+*RESERVATION
+*
+*/
+  public static function reser_load($user_role){
+
     $select = db_select('reservation','r');
     $select->join('users_field_data','u', 'r.user_id=u.uid');
     $select->join('topology','t', 't.topology_id=r.topology_id');
@@ -24,8 +28,24 @@ class NetlabStorage {
     $select->fields('t', array('topo_name','description'))
     ->fields('d', array('term_date'))
     ->fields('u',array('name'));
+    if((strcmp($user_role,$student))==0){
+      $select->condition('r.user_id',$uid);
+    }
     return $select->execute()->fetchAll();
   }
+
+
+
+  public static function topo_load() {
+    $select = db_select('topology', 'n');
+    $select->fields('n',array('topo_name','description','author','created','ram_resources','console_count'));
+    $select->condition('n.active',1);
+    return $select->execute()->fetchAll();
+  }
+
+
+
+
 
   public static function running_load(){
     $select = db_select('running_topology', 'rt');
@@ -52,7 +72,7 @@ class NetlabStorage {
     return $select->execute()->fetchAll();
   }
 
-  public static function cancel_reserve(){
+  public static function delete_reserve(){
     $select = db_select('reservation','r');
     $select->join('term','d','d.term_id=r.term_id');
     $select->join('topology','t','t.topology_id=r.topology_id');

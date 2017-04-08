@@ -1,42 +1,55 @@
-netlab_list_topo:
-  path: 'lab/list-topo'
-  defaults:
-    _controller: '\Drupal\netlab\Controller\NetlabController::list_topologies'
-    _title: 'Topology list'
-  requirements:
-    _permission: 'netlab list-topo'
+#
+# RESERVATION FUNCTIONS ROUTING
+#
 netlab_reservation:
   path: 'lab/reserve'
   defaults:
     _title: 'Do reservation'
     _form: '\Drupal\netlab\Form\DoReservation'
   requirements:
-    _permission: 'access content'
+    _permission: 'netlab reserve'
 netlab_list_reser:
   path: 'lab/list-reser'
   defaults:
     _controller: '\Drupal\netlab\Controller\NetlabController::list_reservations'
     _title: 'Reservation list'
   requirements:
-    _permission: 'access content'
-netlab_list_running:
-  path: 'lab/list-run'
-  defaults:
-    _title: 'Running topologies'
-    _controller: '\Drupal\netlab\Controller\NetlabController::list_running'
-  requirements:
-    _permission: 'netlab list-run'
-netlab_console:
-  path: 'lab/console'
-  defaults:
-    _title: 'Console'
-    _controller: '\Drupal\netlab\Controller\NetlabController::console'
-  requirements:
-    _permission: 'access content'
-netlab_start_topo:
-  path: 'lab/start'
-  defaults:
-    _title: 'Start Topology'
-    _form: '\Drupal\netlab\Form\StartTopology'
-  requirements:
-    _permission: 'access content'
+    _permission: 'netlab list-reser'
+#netlab_del_reser:
+  #path: 'lab/del-reser'
+  #defaults:
+#    _controller: '\Drupal\netlab\Controller\NetlabController::list_reservations'
+    #_title: 'Reservation list'
+  #requirements:
+  #  _permission: 'netlab del-reser'
+#
+# TOPOLOGY FUNCTIONS ROUTING
+#
+#netlab_list_topo:
+  #path: 'lab/list-topo'
+  #defaults:
+#    _controller: '\Drupal\netlab\Controller\NetlabController::list_topologies'
+#    _title: 'Topology list'
+#  requirements:
+#    _permission: 'netlab list-topo'
+#netlab_list_running:
+  #path: 'lab/list-run'
+  #defaults:
+#    _title: 'Running topologies'
+#    _controller: '\Drupal\netlab\Controller\NetlabController::list_running'
+#  requirements:
+#    _permission: 'netlab list-run'
+#netlab_console:
+  #path: 'lab/console'
+  #defaults:
+  #  _title: 'Console'
+#    _controller: '\Drupal\netlab\Controller\NetlabController::console'
+#  requirements:
+#    _permission: 'access content'
+#netlab_start_topo:
+#  path: 'lab/start'
+#  defaults:
+#    _title: 'Start Topology'
+#    _form: '\Drupal\netlab\Form\StartTopology'
+#  requirements:
+#    _permission: 'access content'
