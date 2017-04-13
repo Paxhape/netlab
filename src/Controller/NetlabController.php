@@ -24,9 +24,9 @@ class NetlabController extends ControllerBase {
 
    $build='';
    $rows = array();
-   $user_role = $user->roles;
+   global $user;
 
-  foreach ($result=NetlabStorage::reser_load($user_role) as $record) {
+  foreach ($result=NetlabStorage::reser_load($user->roles) as $record) {
    $rows[]=array(
      $record->name,
      $record->term_date,

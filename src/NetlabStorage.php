@@ -2,7 +2,7 @@
 
 /**
 * @FirmaController
-*Contains \Drupal\firma\FirmaStorage.
+*Contains \Drupal\firma\NetlabStorage.
 */
 
 namespace Drupal\netlab;
@@ -28,7 +28,6 @@ $student = "student";
     $select->fields('t', array('topo_name','description'))
     ->fields('d', array('term_date'))
     ->fields('u',array('name'));
-    //Ak je student vidi len seba
     if((strcmp($user_role,$student))==0){
       $select->condition('r.user_id',$uid);
     }

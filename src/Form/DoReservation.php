@@ -9,7 +9,7 @@ namespace Drupal\netlab\Form;
 
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\firma\FirmaStorage;
+use Drupal\netlab\NetlabStorage;
 
 
 class DoReservation extends FormBase {
@@ -66,7 +66,7 @@ class DoReservation extends FormBase {
                                     'topology_id' => $form_state['values']['topology_select'],
                                   ))->execute();
     drupal_set_message(
-      t('Your reservation has been sucessfully saved !'), 'status'
+      t('Your reservation has been sucessfully saved !'),
     );
   }
 
