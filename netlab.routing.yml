@@ -1,27 +1,28 @@
-#
+  #
 # RESERVATION FUNCTIONS ROUTING
 #
-netlab_reservation:
-  path: 'lab/reserve'
-  defaults:
-    _title: 'Do reservation'
-    _form: '\Drupal\netlab\Form\DoReservation'
-  requirements:
-    _permission: 'netlab reserve'
 netlab_list_reser:
-  path: 'lab/list-reser'
+  path: 'lab/reservation/list'
   defaults:
     _controller: '\Drupal\netlab\Controller\NetlabController::list_reservations'
     _title: 'Reservation list'
   requirements:
-    _permission: 'netlab list-reser'
-#netlab_del_reser:
-  #path: 'lab/del-reser'
-  #defaults:
-#    _controller: '\Drupal\netlab\Controller\NetlabController::list_reservations'
-    #_title: 'Reservation list'
-  #requirements:
-  #  _permission: 'netlab del-reser'
+    _permission: 'netlab_reservation_list'
+netlab_reservation:
+  path: 'lab/reservation/new'
+  defaults:
+    _title: 'New reservation'
+    _form: '\Drupal\netlab\Form\DoReservation'
+  requirements:
+    _permission: 'netlab_reservation_new'
+netlab_edit_reser:
+  path: 'lab/reservation/edit'
+  defaults:
+    _controller: '\Drupal\netlab\Form\EditReservation'
+    _title: 'Reservation list'
+  requirements:
+    _permission: 'netlab_reservation_edit'
+
 #
 # TOPOLOGY FUNCTIONS ROUTING
 #

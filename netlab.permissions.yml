@@ -1,27 +1,26 @@
 #
 # RESERVATION FUNCTIONS PERMISSIONS
 #
-netlab reserve:
-  title: 'Do reservation'
-  description: 'Do reservation of topology permission'
-  restrict access: false
-netlab list-reser:
+netlab_reservation_list:
   title: 'List reservations'
   description: 'Listing all reservations for future'
   restrict access: false
-netlab del-reser:
-  title: 'Deleting reservations'
-  description: 'Deleting reservations of users'
+netlab_reservation_new:
+  title: 'Do reservation'
+  description: 'Do reservation of topology permission'
   restrict access: false
-
+netlab_reservation_edit:
+  title: 'Editing reservations'
+  description: 'Edit your reservations'
+  restrict access: true
 #
 # TOPOLOGY FUNCTION PERMISSIONS
 #
-netlab list-topo:
-  title: 'List topology'
-  description: 'Listing available topology permission'
-  restrict access: false
-netlab list-run:
-  title: 'List running'
-  description: 'List all actually running topologies'
-  restrict access: false
+#netlab list-topo:
+#  title: 'List topology'
+#  description: 'Listing available topology permission'
+#  restrict access: false
+#netlab list-run:
+#  title: 'List running'
+#  description: 'List all actually running topologies'
+#  restrict access: false

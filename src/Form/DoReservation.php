@@ -9,6 +9,8 @@ namespace Drupal\netlab\Form;
 
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\firma\FirmaStorage;
+
 
 class DoReservation extends FormBase {
 
@@ -29,11 +31,11 @@ class DoReservation extends FormBase {
               $term_record->term_date,
           );
         }
-
+      $final_topo = array_column($topo, 'topo_name');
     $form['topology_select'] = array(
       '#type' => 'select',
       '#title' => t('Select topology'),
-      '#options' => $topo , //pozriet
+      '#options' => $final_topo ,
       '#required' => TRUE,
     );
 
@@ -64,7 +66,7 @@ class DoReservation extends FormBase {
                                     'topology_id' => $form_state['values']['topology_select'],
                                   ))->execute();
     drupal_set_message(
-      t('Your reservation has been sucessfully saved !')
+      t('Your reservation has been sucessfully saved !'), 'status'
     );
   }
 
