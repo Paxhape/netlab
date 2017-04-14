@@ -18,7 +18,7 @@ netlab_reservation:
 netlab_edit_reser:
   path: 'lab/reservation/edit'
   defaults:
-    _controller: '\Drupal\netlab\Form\EditReservation'
+    _form: '\Drupal\netlab\Form\EditReservation'
     _title: 'Reservation list'
   requirements:
     _permission: 'netlab_reservation_edit'

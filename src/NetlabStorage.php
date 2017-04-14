@@ -8,12 +8,6 @@
 namespace Drupal\netlab;
 
 class NetlabStorage {
-
-/*
-* Variables
-*/
-$student = "student";
-
 /**
 *
 *RESERVATION DB Functions
@@ -73,9 +67,21 @@ $student = "student";
     return $select->execute()->fetchAll();
   }
 
+  public static function get_term_id_by_term_date($term_date){
+      $select = db_select('term','t');
+      $select->fields('t','term_id');
+      $select->condition('t.term_date',$term_date);
+      return $select->execute()->fetchAll();
+  }
+  
+  public static function get_topo_id_by_topo_name($topo_name){
+      $select = db_select('topology','t');
+      $select->fields('t','topology_id');
+      $select->condition('t.topo_name',$topo_name);
+      return $select->execute()->fetchAll();
+  }
 
-
-  /**
+    /**
   *
   *TOPOLOGY DB Functions
   *

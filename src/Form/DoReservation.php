@@ -21,21 +21,17 @@ class DoReservation extends FormBase {
   public function buildForm(array $form, FormStateInterface $form_state){
 
         foreach ($topo_result=NetlabStorage::topo_reserve() as $topo_record) {
-          $topo[]=array(
-              $topo_record->topo_name,
-          );
+          $topo[]=$topo_record->topo_name;
         }
 
         foreach ($term_result=NetlabStorage::term_reserve() as $term_record) {
-          $term[]=array(
-              $term_record->term_date,
-          );
+          $term[]=$term_record->term_date;
         }
-      $final_topo = array_column($topo, 'topo_name');
+      echo $final_topo = array_values($topo);
     $form['topology_select'] = array(
       '#type' => 'select',
       '#title' => t('Select topology'),
-      '#options' => $final_topo ,
+      '#options' => $final_topo,
       '#required' => TRUE,
     );
 
@@ -59,15 +55,18 @@ class DoReservation extends FormBase {
   }
 
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    global $user;
-    db_insert('reservation')->fields(array(
-                                    'user_id' => $user->uid,
-                                    'term_id' => $form_state['values']['date_select'],
-                                    'topology_id' => $form_state['values']['topology_select'],
-                                  ))->execute();
-    drupal_set_message(
-      t('Your reservation has been sucessfully saved !'),
-    );
+      $key_term = $form_state['values']['date_select'];
+      $term_date = $form['date_select']['#options'][$key_term];
+      $topo_term = $form_state['values']['topology_select'];
+      $topo_name = $form['topology_select']['#options'][$key_term];
+      drupal_set_message($topo_name);
+        db_insert('reservation')
+      ->fields(array(
+          'user_id' => \Drupal::currentUser()->id(),
+          'term_id'=> NetlabStorage::get_term_id_by_term_date($form_state->getValue('date_select')),
+          'topology_id' => NetlabStorage::get_topo_id_by_topo_name($form_state->getValue('topology_select')),
+      ))->execute();
+    drupal_set_message(t('Your reservation has been sucessfully saved !'),'status');
   }
 
 }

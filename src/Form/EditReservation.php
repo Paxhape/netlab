@@ -46,9 +46,9 @@ class EditReservation extends FormBase {
     );
 
     foreach ($resID=NetlabStorage::get_reservation_id(user_role) as $reservation){
-       $res=[]array($reservation->reservation_id);
+       $res[]=array($reservation->reservation_id);
     }
-    $reserve=array_column($res,'reservation_id');
+    $reserve=array_values($res);
     $build['reservation_select'] = array(
       '#type' => 'select',
       '#title' => t('Choose reservation id to edit or delete'),
@@ -59,7 +59,6 @@ class EditReservation extends FormBase {
     $build['actions']['edit'] = array(
       '#type' => 'button',
       '#value' => t('Edit'),
-      '#submit' => array('::editForm()'),
     );
     $build['actions']['delete'] = array(
       '#type' => 'submit',
@@ -79,15 +78,6 @@ class EditReservation extends FormBase {
   }
 
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    global $user;
-    db_insert('reservation')->fields(array(
-                                    'user_id' => $user->uid,
-                                    'term_id' => $form_state['values']['date_select'],
-                                    'topology_id' => $form_state['values']['topology_select'],
-                                  ))->execute();
-    drupal_set_message(
-      t('Your reservation has been sucessfully saved !')
-    );
   }
 
 

@@ -112,7 +112,7 @@ class NetlabController extends ControllerBase {
         $record->hypervisor_port,
       );
     }
-    $header = array(t('User'),t('Topology'),t('Description'),t('Ram Resources'),t('Dynamips Port'),t('Dynagen Port'),t('Hypervisor'))
+    $header = array(t('User'),t('Topology'),t('Description'),t('Ram Resources'),t('Dynamips Port'),t('Dynagen Port'),t('Hypervisor'));
     $build['running'] = array(
       '#type' => 'table',
       '#header' => $header,
