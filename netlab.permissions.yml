@@ -16,10 +16,10 @@ netlab_reservation_edit:
 #
 # TOPOLOGY FUNCTION PERMISSIONS
 #
-#netlab list-topo:
-#  title: 'List topology'
-#  description: 'Listing available topology permission'
-#  restrict access: false
+netlab list-topo:
+  title: 'List topology'
+  description: 'Listing available topology permission'
+  restrict access: false
 #netlab list-run:
 #  title: 'List running'
 #  description: 'List all actually running topologies'

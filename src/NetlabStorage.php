@@ -13,8 +13,10 @@ class NetlabStorage {
 *RESERVATION DB Functions
 *
 */
+
 //Reservations list
-  public static function reser_load($user_role){
+  public static function reser_load($user_role,$uid){
+    $student = "student";
     $select = db_select('reservation','r');
     $select->join('users_field_data','u', 'r.user_id=u.uid');
     $select->join('topology','t', 't.topology_id=r.topology_id');
@@ -22,7 +24,7 @@ class NetlabStorage {
     $select->fields('t', array('topo_name','description'))
     ->fields('d', array('term_date'))
     ->fields('u',array('name'));
-    if((strcmp($user_role,$student))==0){
+    if(strcmp($user_role,'student')==0){
       $select->condition('r.user_id',$uid);
     }
     return $select->execute()->fetchAll();
@@ -68,20 +70,19 @@ class NetlabStorage {
   }
 
   public static function get_term_id_by_term_date($term_date){
-      $select = db_select('term','t');
-      $select->fields('t','term_id');
-      $select->condition('t.term_date',$term_date);
-      return $select->execute()->fetchAll();
-  }
-  
-  public static function get_topo_id_by_topo_name($topo_name){
-      $select = db_select('topology','t');
-      $select->fields('t','topology_id');
-      $select->condition('t.topo_name',$topo_name);
-      return $select->execute()->fetchAll();
-  }
+       $select = db_select('term','t');
+       $select->fields('t',array('term_id','term_date'));
+       $select->condition('t.term_date',$term_date);
+       return $select->execute()->fetchField();
+   }
 
-    /**
+   public static function get_topo_id_by_topo_name($topo_name){
+    $select = db_select('topology','t');
+    $select->fields('t',array('topology_id','topo_name'));
+    $select->condition('t.topo_name',$topo_name);
+    return $select->execute()->fetchField();
+}
+  /**
   *
   *TOPOLOGY DB Functions
   *

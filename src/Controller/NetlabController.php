@@ -17,16 +17,17 @@ class NetlabController extends ControllerBase {
   /**
   * @function
   * Listovanie rezervacii
-  * Vypis zahrna Datum, Meno, topo_name, description a obr_topo
+  * Vypis zahrna Datum, Meno, topo_name, description 
   */
 
   public function list_reservations(){
 
    $build='';
    $rows = array();
-   global $user;
+   $uid=\Drupal::currentUser()->id();
+   $role = reset(\Drupal::currentUser()->getRoles(TRUE));
 
-  foreach ($result=NetlabStorage::reser_load($user->roles) as $record) {
+  foreach ($result=NetlabStorage::reser_load($role,$uid) as $record) {
    $rows[]=array(
      $record->name,
      $record->term_date,
@@ -40,53 +41,46 @@ class NetlabController extends ControllerBase {
      '#type' => 'table',
      '#header' => $header,
      '#rows' => $rows,
-     '#empty' => t('No reservations'),
+     '#empty' => t('No reservations')
    );
    return $build;
   }
-
-
-  /**
-  * @function
-  * Listovanie rezervacii
-  */
-
-   public function dashboard(){
-     $user = \Drupal\user\Entity\User::load(\Drupal::currentUser()->id());
-
-
-
-   }
+ 
 
   /**
   * @function
   * Listovanie Dostupnych Topologii
+  * Vypis zahrna nazov, popis, autora, d8tum vytvorenia, potrebu pamate a pocet konsole pre topologiu
   */
 
-  public function list_topologies(){
-
+    public function list_topologies(){
+        
     $build='';
     $rows = array();
-
-    foreach ($result=NetlabStorage::topo_load() as $record){
+    $uid=\Drupal::currentUser()->id();
+    $role = reset(\Drupal::currentUser()->getRoles(TRUE));
+    
+    foreach (NetlabStorage::topo_load() as $toporecord){
         $rows[]=array(
-                    $record->topo_name,
-                    $record->description,
-                    $record->author,
-                    $record->created,
-                    $record->ram_resources,
-                     );
+            $toporecord->topo_name,
+            $toporecord->description,
+            $toporecord->author,
+            $toporecord->created,
+            $toporecord->ram_resources,
+            $toporecord->console_count,
+        );
     }
-
-    $header = array(t('Name'),t('Description'),t('Author'),t('Created'),t('Ram resources'));
-    $build['topologies'] = array(
-      '#type' => 'table',
-      '#header' => $header,
-      '#rows' => $rows,
-      '#empty' => t('No topologies available'),
+    
+    $header(t('Topology name'),t('Description'),t('Author'),t('Created'),t('Ram resources'),t('Console count'));
+    $build['topologies']=array(
+        '#type' => 'table',
+        '#header' => $header,
+        '#rows' => $rows,
+        '#empty' => t('No topologies'),
     );
-    return $build;
-   }
+    return build;
+    
+  }
 
    /**
    * @function
@@ -146,4 +140,10 @@ public function console(){
 
  return $content;
 }
+
+public function topology_start(){
+    
+    
+}
+
 }

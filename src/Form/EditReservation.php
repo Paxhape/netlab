@@ -27,7 +27,7 @@ class EditReservation extends FormBase {
     $rows = array();
 
 
-    foreach ($result=NetlabStorage::edit_reserve($user_role) as $record) {
+    foreach ($result=NetlabStorage::edit_reserve(\Drupal::currentUser()->id()) as $record) {
       $rows[]=array(
         $record->reservation_id,
         $record->name,
@@ -45,8 +45,8 @@ class EditReservation extends FormBase {
       '#empty' => t('No reservations'),
     );
 
-    foreach ($resID=NetlabStorage::get_reservation_id(user_role) as $reservation){
-       $res[]=array($reservation->reservation_id);
+    foreach ($resID=NetlabStorage::get_reservation_id(\Drupal::currentUser()->id()) as $reservation){
+       $res[]=$reservation->reservation_id;
     }
     $reserve=array_values($res);
     $build['reservation_select'] = array(
