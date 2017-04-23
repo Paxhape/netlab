@@ -14,10 +14,16 @@ use Drupal\netlab\NetlabStorage;
 
 class NetlabController extends ControllerBase {
 
+  /*
+  * @part
+  * REZERVACIA
+  * Cast venovana funkcia spojenych s rezervaciou
+  */
+
   /**
   * @function
   * Listovanie rezervacii
-  * Vypis zahrna Datum, Meno, topo_name, description 
+  * Vypis zahrna Datum, Meno, topo_name, description a obr_topo
   */
 
   public function list_reservations(){
@@ -27,7 +33,7 @@ class NetlabController extends ControllerBase {
    $uid=\Drupal::currentUser()->id();
    $role = reset(\Drupal::currentUser()->getRoles(TRUE));
 
-  foreach ($result=NetlabStorage::reser_load($role,$uid) as $record) {
+  foreach ($result=NetlabStorage::reser_load() as $record){
    $rows[]=array(
      $record->name,
      $record->term_date,
@@ -35,17 +41,61 @@ class NetlabController extends ControllerBase {
      $record->description,
    );
   }
-
    $header = array(t('Name'),t('Reservation date'),t('Name of topology'),t('Description'));
    $build['reservations'] = array(
      '#type' => 'table',
      '#header' => $header,
      '#rows' => $rows,
-     '#empty' => t('No reservations')
+     '#empty' => t('No reservations'),
    );
    return $build;
   }
- 
+
+  public function edit_reservations(){
+
+  $build='';
+  $rows=array();
+  $uid=\Drupal::currentUser()->id();
+  $role = reset(\Drupal::currentUser()->getRoles(TRUE));
+
+  foreach ($result=NetlabStorage::edit_reserve($role,$uid) as $record) {
+   $rows[]=array(
+     $record->reservation_id,
+     $record->name,
+     $record->term_date,
+     $record->topo_name,
+     $record->description,
+   );
+  }
+  $header = array(t('Reservation_id'),t('Name'),t('Reservation date'),t('Name of topology'),t('Description'));
+  $build['reservations'] = array(
+    '#type' => 'table',
+    '#header' => $header,
+    '#rows' => $rows,
+    '#empty' => t('No reservations'),
+  );
+/*
+  foreach ($resid_result=NetlabStorage::get_reservation_id($role,$uid) as $resid_record) {
+    $resid[]=$resid_record->reservation_id;
+  }
+
+  $build['choose_reservation']=array(
+    '#type' => 'select',
+    '#title' => t('Choose reservation to edit'),
+    '#options' => $resid,
+  );
+
+*/
+
+  return $build;
+  }
+
+
+  /*
+  * @part
+  * TOPOLOGIA
+  * Cast venovana funkcia spojenych s topologiou
+  */
 
   /**
   * @function
@@ -54,13 +104,10 @@ class NetlabController extends ControllerBase {
   */
 
     public function list_topologies(){
-        
+
     $build='';
-    $rows = array();
-    $uid=\Drupal::currentUser()->id();
-    $role = reset(\Drupal::currentUser()->getRoles(TRUE));
-    
-    foreach (NetlabStorage::topo_load() as $toporecord){
+
+    foreach ($result=NetlabStorage::topo_load() as $toporecord){
         $rows[]=array(
             $toporecord->topo_name,
             $toporecord->description,
@@ -70,80 +117,54 @@ class NetlabController extends ControllerBase {
             $toporecord->console_count,
         );
     }
-    
-    $header(t('Topology name'),t('Description'),t('Author'),t('Created'),t('Ram resources'),t('Console count'));
+    $header=array(t('Topology name'),t('Description'),t('Author'),t('Created'),t('Ram resources'),t('Console count'));
     $build['topologies']=array(
         '#type' => 'table',
         '#header' => $header,
         '#rows' => $rows,
         '#empty' => t('No topologies'),
     );
-    return build;
-    
-  }
-
-   /**
-   * @function
-   * Listovanie rezervacii
-   */
-
-
-  /**
-  * @function
-  * Listovanie beziacich topologii
-  */
-
-  public function list_running(){
-
-    foreach ($result=NetlabStorage::running_load() as $record) {
-      $rows[]=array(
-        $record->name,
-        $record->topo_name,
-        $record->description,
-        $record->ram_resources,
-        $record->pid_dynamips,
-        $record->pid_dynagen,
-        $record->hypervisor_port,
-      );
-    }
-    $header = array(t('User'),t('Topology'),t('Description'),t('Ram Resources'),t('Dynamips Port'),t('Dynagen Port'),t('Hypervisor'));
-    $build['running'] = array(
-      '#type' => 'table',
-      '#header' => $header,
-      '#rows' => $rows,
-      '#empty' => t('No reservations'),
-    );
     return $build;
   }
 
+  /**
+  * @function
+  * Listovanie spustenych Topologii
+  * Vypis zahrna nazov, popis, autora, d8tum vytvorenia, potrebu pamate a pocet konsole pre topologiu
+  */
+  public function list_running(){
 
-public function console(){
-  global $user;
-  global $base_url;
+       $build='';
+       $rows = array();
+       $uid=\Drupal::currentUser()->id();
+       $role = reset(\Drupal::currentUser()->getRoles(TRUE));
 
-  $content='';
+      foreach (NetlabStorage::running_load($role,$uid) as $record){
+       $rows[]=array(
+         $record->name,
+         $record->topo_name,
+         $record->description,
+         $record->ram_resources,
+         $record->started,
+       );
+      }
+       $header = array(t('Name'),t('Name of topology'),t('Description'),t('RAM'),t('Started'));
+       $build['running'] = array(
+         '#type' => 'table',
+         '#header' => $header,
+         '#rows' => $rows,
+         '#empty' => t('No running topologies'),
+       );
+       return $build;
+  }
 
-  $pom = '<embed CODEBASE="'.$base_url.'/sites/default/files/" ARCHIVE="jta26.jar" CODE="de.mud.jta.Applet" WIDTH=80 	HEIGHT=35>
-  <param name="config" value="admin/applet_config.conf">
-  <param name="Socket.port" value = "3000">
-  </embed>';
- $rows[] = array('Router ', $pom);
 
- $header = array(t('Device'),t(''));
 
- #$content = theme('table',$header, $rows);
- $content['console'] = array(
-   '#type' => 'table',
-   '#header' => $header,
-   '#rows' => $rows,
- );
+    public function term_cron(){
 
- return $content;
-}
+    }
 
-public function topology_start(){
-    
-    
-}
+    public function configure(){
 
+    }
 }

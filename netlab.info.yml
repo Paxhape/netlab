@@ -3,4 +3,4 @@ type: module
 description: Netlab drupal module to give you access to online networking laboratory
 core: 8.x
 package: Other
-version: 0.1
+version: 0.2

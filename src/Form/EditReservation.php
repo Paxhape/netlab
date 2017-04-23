@@ -10,8 +10,6 @@ namespace Drupal\netlab\Form;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 
-//Variables
-$student = 'student';
 
 
 class EditReservation extends FormBase {
@@ -21,8 +19,6 @@ class EditReservation extends FormBase {
   }
 
   public function buildForm(array $form, FormStateInterface $form_state){
-    global $user;
-    $user_role = $user->roles;
     $build='';
     $rows = array();
 
@@ -46,7 +42,7 @@ class EditReservation extends FormBase {
     );
 
     foreach ($resID=NetlabStorage::get_reservation_id(\Drupal::currentUser()->id()) as $reservation){
-       $res[]=$reservation->reservation_id;
+       $res[]=array($reservation->reservation_id);
     }
     $reserve=array_values($res);
     $build['reservation_select'] = array(
