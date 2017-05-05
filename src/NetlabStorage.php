@@ -15,13 +15,14 @@ class NetlabStorage {
 */
 
 //Reservations list
-  public static function reser_load(){
+  public static function reser_load($uid,$user_role){
     $select = db_select('reservation','r');
     $select->join('users_field_data','u', 'r.user_id=u.uid');
     $select->join('topology','t', 't.topology_id=r.topology_id');
     $select->join('term','d','d.term_id=r.term_id');
     $select->fields('t', array('topo_name','description'))
     ->fields('d', array('term_date'))
+    ->fields('r',array('created'))
     ->fields('u',array('name'));
     if(strcmp($user_role,'student')==0){
       $select->condition('r.user_id',$uid);
@@ -185,6 +186,21 @@ class NetlabStorage {
     $select->condition('rt.running_topology_id',$running_topology_id);
     return $select->execute()->fetchAll();
   }
+/*
+  public static function res_count($uid){
+    $select = db_select()
+  }
 
+  public static function get_user_running($uid)
+
+  {
+    $select = db_select('reservation','r');
+    $select->join('users_field_data','u', 'r.user_id=u.uid');
+    $select->join('topology','t','t.topology_id=r.topology_id');
+    $select->join('running_topology','rt','r.reservation_id=rt.reservation_id');
+    $select->fields()
+    $select->condition()
+  }
+*/
 
 }

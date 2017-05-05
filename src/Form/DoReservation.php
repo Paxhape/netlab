@@ -24,9 +24,16 @@ class DoReservation extends FormBase {
       foreach ($topo_result=NetlabStorage::topo_reserve() as $topo_record) {
         $topo[]=$topo_record->topo_name;
       }
-
+      $count=count($topo);
+      if($count==0){
+         drupal_set_message(t(' No topology ! '));
+      }
       foreach ($term_result=NetlabStorage::term_reserve() as $term_record) {
         $term[]=$term_record->term_date;
+      }
+      $count=count($term);
+      if($count==0){
+        drupal_set_message(t(' No terms ! '));
       }
     $form['topology_select'] = array(
       '#type' => 'select',
@@ -64,11 +71,13 @@ class DoReservation extends FormBase {
   }
   $toponame=$topo[$form_state->getValue('topology_select')];
   $termname=$term[$form_state->getValue('date_select')];
+  $nowDate = date("Y-m-d H:i:s");
      db_insert('reservation')
        ->fields(array(
-           'user_id' => \Drupal::currentUser()->id(),
+         'user_id' => \Drupal::currentUser()->id(),
          'term_id' => NetlabStorage::get_term_id_by_term_date($termname),
-       'topology_id' => NetlabStorage::get_topo_id_by_topo_name($toponame),
+         'topology_id' => NetlabStorage::get_topo_id_by_topo_name($toponame),
+         'created' => $nowDate,
        ))->execute();
 
       drupal_set_message(t('You saved topology @topo for @date !',array(

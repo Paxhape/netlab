@@ -15,8 +15,8 @@ netlab_reservation:
 netlab_edit_reser:
   path: 'lab/reservation/edit'
   defaults:
-    _form: '\Drupal\netlab\Controller\NetlabController::edit_reservations'
     _title: 'Reservation list'
+    _form: '\Drupal\netlab\Form\EditReservation'
   requirements:
     _permission: 'access content'
 netlab_list_topo:
@@ -43,7 +43,7 @@ netlab_stop_topo:
 netlab_configure:
   path: 'lab/topology/configure'
   defaults:
-    _controller: '\Drupal\netlab\Controller\NetlabController::configure'
+    _controller: '\Drupal\netlab\Controller\NetlabController::conf_topo'
     _title: 'Configuring'
   requirements:
     _permission: 'access content'
@@ -52,5 +52,12 @@ netlab_list_run:
   defaults:
     _controller: '\Drupal\netlab\Controller\NetlabController::list_running'
     _title: 'Running topologies'
+  requirements:
+    _permission: 'access content'
+netlab_dashboard:
+  path: 'lab/dashboard'
+  defaults:
+    _controller: '\Drupal\netlab\Controller\NetlabController::dashboard'
+    _title: 'Dashboard'
   requirements:
     _permission: 'access content'

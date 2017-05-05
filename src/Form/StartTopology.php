@@ -39,6 +39,8 @@ class StartTopology extends FormBase {
         foreach(NetlabStorage::get_only_res_id($uid) as $reser){
           $reservations[]=$reser->reservation_id;
         }
+        $count=count($reservations);
+        if($count!=0){
          $form['select'] = array(
            '#type' => 'select',
            '#title' => t('Select topology to start'),
@@ -51,6 +53,7 @@ class StartTopology extends FormBase {
              '#value' => t('Start'),
              '#button_type' => 'primary',
          );
+         }
          return $form;
   }
 
