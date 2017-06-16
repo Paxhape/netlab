@@ -3,77 +3,81 @@
 /**
 
  * @file
- * Contains Drupal\netlab\Form\EditReservation.
+ * Contains Drupal\netlab\Form\DeleteReservation.
  */
 namespace Drupal\netlab\Form;
 
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\netlab\NetlabStorage;
 
-
-
-class EditReservation extends FormBase {
+class DeleteReservation extends FormBase {
 
   public function getFormId() {
-    return 'edit_reservation_form';
+    return 'delete_reservation_form';
   }
 
   public function buildForm(array $form, FormStateInterface $form_state){
-    $build='';
-    $rows = array();
-
-
-    foreach ($result=NetlabStorage::edit_reserve(\Drupal::currentUser()->id()) as $record) {
-      $rows[]=array(
-        $record->reservation_id,
-        $record->name,
-        $record->term_date,
-        $record->topo_name,
-        $record->description,
-      );
-    }
-
-    $header = array(t('Reservation Id'),t('Name'),t('Reservation date'),t('Name of topology'),t('Description'));
-    $build['reservations'] = array(
-      '#type' => 'table',
-      '#header' => $header,
-      '#rows' => $rows,
-      '#empty' => t('No reservations'),
-    );
-
-    foreach ($resID=NetlabStorage::get_reservation_id(\Drupal::currentUser()->id()) as $reservation){
-       $res[]=array($reservation->reservation_id);
-    }
-    $reserve=array_values($res);
-    $build['reservation_select'] = array(
-      '#type' => 'select',
-      '#title' => t('Choose reservation id to edit or delete'),
-      '#options' => $reserve,
-      '#empty' => t('No reservations'),
-    );
-    $build['actions']['#type'] = 'actions';
-    $build['actions']['edit'] = array(
-      '#type' => 'button',
-      '#value' => t('Edit'),
-    );
-    $build['actions']['delete'] = array(
-      '#type' => 'submit',
-      '#value' => t('Delete'),
-    );
-  }
-
-  public function editForm()
-  {
-    drupal_set_message(
-      t('Your reservation has been sucessfully saved !')
-    );
+             $uid = \Drupal::currentUser()->id();
+             $role = reset(\Drupal::currentUser()->getRoles(TRUE));
+             foreach (NetlabStorage::list_start_reservations($uid,$role) as $record) {
+              $rows[]=array(
+                $record->reservation_id,
+                $record->name,
+                $record->term_date,
+                $record->saved_until,
+                $record->topo_name,
+                $record->description,
+              );
+             }
+             $header=array(t('Id'),t('Name'),t('Reservation date'),t('Saved until'),t('Name of topology'),t('Description'));
+             $form['reservations'] = array(
+               '#type' => 'table',
+               '#header' => $header,
+               '#rows' => $rows,
+               '#empty' => t('No reservations'),
+             );
+            foreach(NetlabStorage::get_only_res_id($uid) as $reser){
+              $reservations[]=$reser->reservation_id;
+            }
+            $count=count($reservations);
+            if($count!=0){
+             $form['select'] = array(
+               '#type' => 'select',
+               '#title' => t('Select reservation to delete'),
+               '#required' => TRUE,
+               '#options' => $reservations,
+             );
+             $form['actions']['#type'] = 'actions';
+             $form['actions']['submit'] = array(
+                 '#type' => 'submit',
+                 '#value' => t('Delete'),
+                 '#button_type' => 'primary',
+             );
+             }
+             return $form;
   }
 
   public function validateForm(array &$form, FormStateInterface $form_state) {
-    //Uvidime co spravi required
+    ///porovnaj Datumy
   }
 
   public function submitForm(array &$form, FormStateInterface $form_state) {
+
+    $uid = \Drupal::currentUser()->id();
+    $role = reset(\Drupal::currentUser()->getRoles(TRUE));
+
+    foreach(NetlabStorage::get_only_res_id($uid) as $reser){
+      $reservations[]=$reser->reservation_id;
+    }
+
+    $toDelete=$reservations[$form_state->getValue('select')];
+
+    $delete = \Drupal::database()->delete('reservation')
+               ->condition('reservation_id',$toDelete)
+               ->execute();
+
+    drupal_set_message(t('Reservation has been deleted  !'));
   }
 
 

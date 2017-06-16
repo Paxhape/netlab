@@ -1,28 +1,4 @@
-netlab_start_stop_topo:
-  title: 'Start and stop topology'
-  description: 'Allows this group of users to start or stop topology'
-  restrict access: true
-netlab_administrative_stop:
-  title: 'Administrative stopping of topology'
-  description: 'Stop one of all topologies'
-  restrict access: true
-netlab_reservation_new:
-  title: 'Make new reservations'
-  description: 'Make new reservations'
-netlab_reservation_administration:
-  restrict access: true
-  title: 'Administration of reservations'
-  description: 'Administration of reservations'
-  restrict access: true
-netlab_new_topology:
-  title: 'Make new topology'
-  description: 'Make new topology'
-  restrict access: true
-netlab_edit_delete_configuration:
-  title: 'Edit topology'
-  description: 'Edit topology'
-  restrict access: true
-netlab_list_configuration:
-  title: 'Topology listing'
-  description: 'Topology listing'
+netlab_new_delete_topology:
+  title: 'Add and delete topology'
+  description: 'Allows this group of users to add and delete topology'
   restrict access: true

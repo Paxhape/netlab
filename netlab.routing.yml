@@ -15,8 +15,15 @@ netlab_reservation:
 netlab_edit_reser:
   path: 'lab/reservation/edit'
   defaults:
-    _title: 'Reservation list'
+    _title: 'Edit reservation'
     _form: '\Drupal\netlab\Form\EditReservation'
+  requirements:
+    _permission: 'access content'
+netlab_delete_reservations:
+  path: 'lab/reservation/delete'
+  defaults:
+    _title: 'Delete reservations'
+    _form: '\Drupal\netlab\Form\DeleteReservation'
   requirements:
     _permission: 'access content'
 netlab_list_topo:
@@ -61,3 +68,24 @@ netlab_dashboard:
     _title: 'Dashboard'
   requirements:
     _permission: 'access content'
+netlab_new_topology:
+  path: 'lab/topology/new'
+  defaults:
+    _form: '\Drupal\netlab\Form\DoTopology'
+    _title: 'New topology'
+  requirements:
+    _permission: 'netlab_new_delete_topology'
+netlab_edit_topo:
+  path: 'lab/topology/edit'
+  defaults:
+    _form: '\Drupal\netlab\Form\EditTopology'
+    _title: 'Edit topology'
+  requirements:
+    _permission: 'access content'
+netlab_delete_topo:
+  path: 'lab/topology/delete'
+  defaults:
+    _form: '\Drupal\netlab\Form\DeleteTopology'
+    _title: 'Delete topology'
+  requirements:
+    _permission: 'netlab_new_delete_topology'
