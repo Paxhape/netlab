@@ -54,7 +54,11 @@ class DoTopology extends FormBase {
 
     $form['ram_resources']=array(
       '#type' => 'textfield',
+<<<<<<< HEAD
       '#title' => t('Ram resources [MB]'),
+=======
+      '#title' => t('Ram resources'),
+>>>>>>> master
       '#maxlength' => 6,
       '#required' => TRUE,
     );
@@ -104,6 +108,7 @@ class DoTopology extends FormBase {
 
     $console_count = (substr_count($net_file,"consPort") + substr_count($kvm_file,"consPort"));
     $vnc_count = substr_count($kvm_file,"vncPort");
+<<<<<<< HEAD
     $virbr_count = 0;
     for($i=1;$i<20;$i++){
      if((substr_count($kvm_file,"virtNet".$i))==0){
@@ -112,6 +117,10 @@ class DoTopology extends FormBase {
        $virbr_count++;
      }
     }
+=======
+    $virbr_count = substr_count($kvm_file,"virtNet");
+
+>>>>>>> master
 
     db_insert('topology')
        ->fields(array(

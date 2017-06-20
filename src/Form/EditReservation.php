@@ -54,7 +54,11 @@ class EditReservation extends FormBase {
         '#rows' => $rows,
         '#empty' => t('No reservations'),
       );
+<<<<<<< HEAD
      foreach(NetlabStorage::get_only_res_id($uid,$role) as $reser){
+=======
+     foreach(NetlabStorage::get_only_res_id($uid) as $reser){
+>>>>>>> master
        $reservations[]=$reser->reservation_id;
      }
      $count=count($reservations);
@@ -102,7 +106,10 @@ class EditReservation extends FormBase {
 
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $uid = \Drupal::currentUser()->id();
+<<<<<<< HEAD
     $role = reset(\Drupal::currentUser()->getRoles(TRUE));
+=======
+>>>>>>> master
   foreach (NetlabStorage::topo_reserve() as $topo_record) {
         $topo[]=$topo_record->topo_name;
   }
@@ -111,7 +118,11 @@ class EditReservation extends FormBase {
         $term[]=$term_record->term_date;
   }
 
+<<<<<<< HEAD
   foreach(NetlabStorage::get_only_res_id($uid,$role) as $reser){
+=======
+  foreach(NetlabStorage::get_only_res_id($uid) as $reser){
+>>>>>>> master
     $reservations[]=$reser->reservation_id;
   }
   $toponame=$topo[$form_state->getValue('topology_select')];

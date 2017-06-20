@@ -67,7 +67,11 @@ class DeleteReservation extends FormBase {
     $uid = \Drupal::currentUser()->id();
     $role = reset(\Drupal::currentUser()->getRoles(TRUE));
 
+<<<<<<< HEAD
     foreach(NetlabStorage::get_only_res_id($uid,$role) as $reser){
+=======
+    foreach(NetlabStorage::get_only_res_id($uid) as $reser){
+>>>>>>> master
       $reservations[]=$reser->reservation_id;
     }
 

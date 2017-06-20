@@ -99,7 +99,15 @@ class DoReservation extends FormBase {
          'created' => $nowDate,
          'saved_until' => $saved_until,
        ))->execute();
+  /*
+  foreach(NetlabStorage::getFreeCapacity($term_date) as $gfc){
+     $free_capacity[]=$gfc->free_capacity;
+  }
+  foreach(NetlabStorage::getRamRecources($toponame) as $grr){
+    $topo_ram[]=$grr->ram_resources;
+  }
 
+<<<<<<< HEAD
   foreach(NetlabStorage::getFreeCapacity($term_date) as $gfc){
      $free_capacity[]=$gfc->free_capacity;
   }
@@ -116,6 +124,16 @@ class DoReservation extends FormBase {
           ->condition('term_id', $term_date)
           ->execute();
 
+=======
+  $new_free_capacity = reset($free_capacity) - reset($topo_ram);
+       $update = db_update('term')
+          ->fields(array(
+            'free_capacity' => $new_free_capacity,
+          ))
+          ->condition('term_date', $term_date)
+          ->execute();
+*/
+>>>>>>> master
       drupal_set_message(t('You saved topology @topo for @date !',array(
       '@topo' => $new_free_capacity ,
       '@date' => reset($free_capacity),

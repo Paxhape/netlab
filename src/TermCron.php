@@ -29,6 +29,7 @@ for ($i = 0; $i<14; $i++){
           }
       }
     }
+<<<<<<< HEAD
 //Delete old files
 $base="/opt/viro2/topology";
 $sql_del="SELECT topo_name,name FROM topology,users_field_data WHERE topology_id IN (SELECT topology_id FROM reservation WHERE saved_until<='2017-06-17 20:00:00') AND uid IN (SELECT user_id FROM reservation WHERE saved_until<='$todayMidnight')";
@@ -37,6 +38,9 @@ while($record = $dir_del->fetch_assoc()){
   $topo_name = str_replace(' ','_',$record["topo_name"]);
   exec('rm -rf '.$base.'/'.$topo_name.'/'.$record["name"].' &');
 }
+=======
+
+>>>>>>> master
 //DELETE FROM term WHERE term_id NOT IN ( SELECT term_id FROM reservation) AND term_date<CURRENT_DATE
 //DELETE OLD AND UNUSED
 

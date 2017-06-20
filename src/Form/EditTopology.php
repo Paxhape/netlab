@@ -5,7 +5,10 @@
  * @file
  * Contains Drupal\netlab\Form\EditTopology.
  */
+<<<<<<< HEAD
  /*TODO*/
+=======
+>>>>>>> master
 
 namespace Drupal\netlab\Form;
 
@@ -23,7 +26,10 @@ class EditTopology extends FormBase {
   public function buildForm(array $form, FormStateInterface $form_state){
 
     foreach ($result=NetlabStorage::topo_id_load() as $toporecord){
+<<<<<<< HEAD
       $form_state->setCached(FALSE);
+=======
+>>>>>>> master
         $rows[]=array(
             $toporecord->topology_id,
             $toporecord->topo_name,
@@ -50,12 +56,82 @@ class EditTopology extends FormBase {
         '#type' => 'select',
         '#title' => t('Select topology to edit'),
         '#options' => $topologies,
+<<<<<<< HEAD
     );
 
     $form['load']=array(
         '#type' => 'submit',
         '#value' => t('Load values'),
         '#submit' => array('::load_values'),
+=======
+        '#ajax' => [
+          'callback' => '::topoCallback',
+          'wrapper' => 'topo_name'
+        ],
+    );
+
+    $form_state->setCached(FALSE);
+
+    $form['clear'] = array(
+     '#name' => 'clear',
+     '#type' => 'button',
+     '#value' => t('Reset'),
+     '#attributes' => array('onclick' => 'load_values('.$this->form.', '.$this->form_state.'); return true;'),
+   );
+
+
+    $form['topo_name']=array(
+      '#type' => 'textfield',
+      '#title' => t('Name of topology'),
+      '#maxlength' => 25,
+    );
+
+    $form['description']=array(
+      '#type' => 'textfield',
+      '#title' => t('Description'),
+      '#maxlength' => 1000,
+    );
+
+
+    $form['topo_schema']=array(
+      '#type' => 'managed_file',
+      '#title' => t('Topology image upload'),
+      '#upload_location' => 'public://',
+    );
+
+    $form['active_label']=array(
+      '#type' => 'label',
+      '#title' => t('Activeness'),
+    );
+
+    $form['active']=array(
+      '#type' => 'checkbox',
+      '#title' => t('Active'),
+    );
+
+    $form['ram_resources']=array(
+      '#type' => 'textfield',
+      '#title' => t('Ram resources'),
+      '#maxlength' => 6,
+    );
+
+    $form['net_file']=array(
+      '#type' => 'textarea',
+      '#title' => t('Dynagen NetFile'),
+    );
+    $form['kvm_file']=array(
+      '#type' => 'textarea',
+      '#title' => t('KVM Configuration file'),
+    );
+    $form['kvm_file_label']=array(
+      '#markup' => t('<p><i>*Read documentation for more informations</i></p>'),
+    );
+    $form['actions']['#type'] = 'actions';
+    $form['actions']['submit'] = array(
+        '#type' => 'submit',
+        '#value' => t('Save'),
+        '#button_type' => 'primary',
+>>>>>>> master
     );
   }
     return $form;
@@ -119,6 +195,7 @@ class EditTopology extends FormBase {
   }
 
   public function load_values(array &$form, FormStateInterface $form_state){
+<<<<<<< HEAD
     $topo_id = $form_state->getValue('select');
     foreach(NetlabStorage::editTopo($topo_id) as $rec){
       $topo_name=$rec->topo_name;
@@ -191,6 +268,9 @@ class EditTopology extends FormBase {
         $form_state->setRebuild();
 
 
+=======
+    return drupal_set_message(t('You saved @topology topology @topo_name, @description, @topo_scheme, @active, @ram_resources, @console_count, @net_file, @author @created   !'), 'error');
+>>>>>>> master
   }
 
 }

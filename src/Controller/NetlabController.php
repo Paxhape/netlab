@@ -72,6 +72,7 @@ class NetlabController extends ControllerBase {
    $role = reset(\Drupal::currentUser()->getRoles(TRUE));
    $runCount=count(NetlabStorage::get_console_needed_info($uid));
    $pubPort = 6080;
+<<<<<<< HEAD
    $conBase = 11000;
 
    if($runCount<1){
@@ -117,6 +118,44 @@ class NetlabController extends ControllerBase {
           $output = shell_exec('shellinaboxd -t -b -p '.$wwwPort.' -s /'.$uid.'-con'.$i.':nobody:nogroup:/:\'telnet 0 '.$newPort.'\' ');
           drupal_set_message('shellinaboxd -t -b -p '.$wwwPort.' -s /'.$uid.'-con'.$i.':nobody:nogroup:/:\'telnet 0 '.$newPort.'\' & '.$output.'');
           $url = Url::fromUri('http://viro2.kis.fri.uniza.sk:81/'.$uid.'-con'.$i);
+=======
+
+   if($runCount<1){
+     drupal_set_message(t('No started topologies!'), 'error');
+     $build['topo_name'] = array(
+       '#markup' => t('<br \>  <br \><br \>'),
+     );
+   }else{
+
+        foreach ($result=NetlabStorage::get_console_needed_info($uid) as $record){
+          $vnc_count[]=$record->vnc_count;
+          $vnc_first_console[]=$record->vnc_first_console;
+          $console_count[]=$record->console_count;
+          $console_first[]=$record->console_first;
+          $topo_name[]=$record->topo_name;
+          $topo_schema[]=$record->topo_schema;
+          $description[]=$record->description;
+        }
+
+        $build['topo']['topo_name'] = array(
+          '#markup' => t('<br \> <h3>@toponame</h3> <br \>',array('@toponame' => $topo_name[0])),
+        );
+
+        $build['topo']['topo_image'] = array(
+          '#theme' => 'image_style',
+          '#style_name' => 'topology',
+          '#uri' => 'public://'.$topo_schema[0],
+        );
+        $build['topo']['description'] = array(
+          '#markup' => t('<br \> <br \> @desc <br \> <br \>',array('@desc' => $description[0])),
+        );
+
+        for($i = 0 ; $i < $console_count[0]; $i++){
+
+
+          $newPort = $pubPort + $i ;
+          $url = Url::fromUri('http://viro2.kis.fri.uniza.sk:'.$newPort);
+>>>>>>> master
           $build['consoles']['console '.$i] = array(
             '#type' => 'link',
             '#url' => $url,
@@ -130,12 +169,20 @@ class NetlabController extends ControllerBase {
         }
 
         for($j = 0; $j < $vnc_count[0]; $j++){
+<<<<<<< HEAD
           exec('/opt/viro2/noVNC/utils/launch.sh --vnc localhost:'.$vncPort.' --listen 82  &');
           $url = Url::fromUri('http://viro2.kis.fri.uniza.sk:6080/vnc.html?host=viro2.kis.fri.uniza.sk&port=6080');
           $build['consoles']['console '.$i] = array(
             '#type' => 'link',
             '#url' => $url,
             '#title' => t('Monitor'.$i),
+=======
+          $url = Url::fromUri('http://viro2.kis.fri.uniza.sk:'.$pubPort);
+          $build['consoles']['console '.$i] = array(
+            '#type' => 'link',
+            '#url' => $url,
+            '#title' => t('Console'.$i),
+>>>>>>> master
             '#attributes' => array('target' => '_blank'),
           );
         }

@@ -187,7 +187,11 @@ class NetlabStorage {
   public static function start_reservation($reservation){
     $select = db_select('topology','t');
     $select->join('reservation','r', 'r.topology_id=t.topology_id');
+<<<<<<< HEAD
     $select->fields('t',array('virbr_count','topo_name','ram_resources','console_count','net_file','kvm_file'));
+=======
+    $select->fields('t',array('topo_name','ram_resources','console_count','net_file','kvm_file'));
+>>>>>>> master
     $select->condition('r.reservation_id',$reservation);
     return $select->execute()->fetchAll();
   }
@@ -228,6 +232,7 @@ class NetlabStorage {
     $select->condition('t.topology_id',$topology_id);
     return $select->execute()->fetchAll();
   }
+<<<<<<< HEAD
 
   public static function getFreeCapacity($term_date){
     $select = db_select('term','t');
@@ -247,6 +252,20 @@ class NetlabStorage {
     $select = db_select('topology','t');
     $select->fields('t',array('topo_name','description','topo_schema','active','ram_resources','net_file','kvm_file'));
     $select->condition('t.topology_id',$topology_id);
+=======
+
+  public static function getFreeCapacity($term_date){
+    $select = db_select('term','t');
+    $select->fields('t',array('free_capacity'));
+    $select->condition('t.term_id',$term_date);
+    return $select->execute()->fetchAll();
+  }
+
+  public static function getRamRecources($toponame){
+    $select = db_select('topology','t');
+    $select->fields('t',array('ram_resources'));
+    $select->condition('t.topology_id',$toponame);
+>>>>>>> master
     return $select->execute()->fetchAll();
   }
 }
