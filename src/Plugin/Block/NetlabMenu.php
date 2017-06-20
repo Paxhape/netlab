@@ -13,39 +13,21 @@ use Drupal\Core\Url;
 
 /**
  * @Block(
- *   id = "firma_block"
+ *   id = "netlab_menu"
  * )
  */
-
 
 class NetlabMenu extends BlockBase {
 
   public function build(){
-    $build='';
-
-    $reservation=
-
-    $select = db_select('node_field_data','n');
-    $select->fields('n', array('nid','title'));
-    $select->condition('n.status',1)
-    ->orderBy('n.created','DESC')
-    ->range(0,5);
-    $entries = $select->execute()->fetchAll();
-
-    $rows = array();
-    foreach ($entries as $entry) {
-      $url = Link::createFromRoute($entry->title,
-      'entity.node.canonical',
-      ['node' => $entry->nid],
-      ['attributes' => ['class' => 'my-link-class']]);
-      $rows[] = $url;
-    }
-
+  /*
+  $url = Url:fromInternalUri('lab/topology/');
     return array(
-    '#theme' => 'item_list' ,
-    '#items' => $rows,
-    '#list_type' => 'ol'
+      'test' => array(
+        '#markup' => $url ,
+      ),
     );
+   */
   }
 
 }

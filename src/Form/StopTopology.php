@@ -39,9 +39,11 @@ class StopTopology extends FormBase {
            '#rows' => $rows,
            '#empty' => t('No running topologies'),
          );
-        foreach(NetlabStorage::get_only_run_id($uid) as $run){
+        foreach(NetlabStorage::get_only_run_id($uid,$role) as $run){
           $runtop[]=$run->running_topology_id;
         }
+        $count=count($runtop);
+        if($count!=0){
          $form['runnin'] = array(
            '#type' => 'select',
            '#title' => t('Select topology to stop'),
@@ -54,6 +56,7 @@ class StopTopology extends FormBase {
              '#value' => t('Stop'),
              '#button_type' => 'primary',
          );
+       }
          return $form;
   }
 
